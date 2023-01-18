@@ -1,0 +1,6 @@
+{ "Brave", "Justice", "Ruler", "Emperor", "Prince", "Princess", "King", "Queen", "Joker", "Hero", "Heroine",
+        "Idiot", "Pathetic", "Loser", "Lover", "Emperor's Lover", "Empress", "Concubine", "Apostol", "BloodSeeker", "TruthSeeker", "Priest",
+        "Tank", "Aerial", "Anti-hero", "Villain", "Villainess", "Fighter", "Archer", "Saber", "Lancer", "Hobbit", "Icy", "Burst",
+        "Commander", "General", "Rider", "Caster", "SpellBreaker", "RuleBreaker", "ImagineBreaker", "Mirror", "Haunted", "Cursed",
+        "Hearthbroken", "Casanova", "Girly", "Lustful", "Sinner", "Sister", "Bro", "The Father", "Feather", "The Fly", "The Hokage",
+        "Ninja", "Samurai", "Kunoichi", "Swordman", "Swordmaster", "Explosive", "Dynamight", "Elden Lord", "Pirate", "Overlord"}

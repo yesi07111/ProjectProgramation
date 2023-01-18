@@ -1,0 +1,12 @@
+{"Is the most powerful being in the world.", "It's a loser.", "A freak.", "Just a weirdo.",
+        "There isn't too much to say about.", "Waste of time.", "Was rich but lost everything gambling.", "Wants to be the pirate king",
+        "Want to be the best swordmaster.", "It's cool.", "Pretty good-looking.", "A huge imbecile.", "A big hero.", "Over-powered.",
+        "Too strong for their own good.", "Pure evil.", "Just a perv.", "Virgin.", "Sage.", "Invencible in being heroic.", "Propense to die early.",
+        "Coward.", "A little ugly.", "As a very bad personality.", "Also is good.", "Deviiiil.", "Scum.", "A true Hero.", "An strange living being.",
+        "Once tried to be a mage.", "Likes to eat pizza.", "Hates beer.", "It's gay.", "And is straight as an arrow.", "A saint.",
+        "Do very good things in their past life.", "It's an absolute ruler.", "Is empowered.", "Hates sunlight.", "Loves anime.",
+        "Always want to play videogames, never as time to do so.", "Just a guy... or a girl, whatever.", "Doctor in being ridiculous.",
+        "Loves sciencie and the space.", "A very common outcast.", "Good word to describe this...being: Anti-social.", "Excesively Friendly.",
+        "Of Old Age.", "Born in Mercury.", "A great seductor.", "Had a very though childhood.", "Likes to use cape.", "It's explosive!"
+	"You better not say anything about their appareance.", "Maybe a little too ugly.", "Temperamental.", "The typical emotional type."
+         }

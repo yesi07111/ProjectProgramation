@@ -1,0 +1,6 @@
+{"Jin", "Xia", "Su Luxia", "Shin", "Rin", "Lynn", "Llenn", "Mordor", "Voldemort", "Kazuma", "Shiori",
+        "Sasuke", "Aria", "Ais", "Bell", "Sylvie", "Thor", "Thorfinn", "Thunder", "Marcus", "Liliana", "Runa", "Megumin", "Izuku",
+        "Ren", "Rina", "Sara", "Zero", "Zero Two", "Merida", "Merlina", "Wednesday", "Arturo", "Arturia", "Lance", "Justin",
+        "Tony", "Toro", "Bull", "Cassandra", "Calixto", "Malefica", "Marian", "Five", "Hiro", "Shiro", "Kuro", "Kuroko", "Morticia",
+        "Hinata", "Kage", "Light", "L", "Ryuk", "Sung Jinwo", "Suna", "Mailyn", "Coco", "Luffy", "Zoro", "Nami", "Robin",
+        "Chopper", "Brook", "Sanji", "Franky", "Denji", "Makima", "Reze", "Kobeni", "Maki", "Yuna", "Harry NoPotter", "Ron", }

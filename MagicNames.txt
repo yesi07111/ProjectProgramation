@@ -1,0 +1,3 @@
+{"Sorcerer's ", "Mage's ", "Magical ", "Advent ", "Adept's ", "Magician's ", "Special ", "Alternative ", "World ", "Undead's "
+            , "Undine's ", "God's ", "Godess's ", "Priest's ", "Saint's ", "Messiah's ", "Lord's ", "Demon Lord's ", "Assasin's ", "Archer's ",
+            "Paladin's ", "Another ", "One More ", "Clayman's ", "Majin's ", "Witch's ", "Enchanter's ", "Mana Force: ", "Ruler: "};
