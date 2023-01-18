@@ -1,0 +1,2 @@
+Effect {Target = Ally(1); Action = Heal(2000); FaithCost=400; MilitaryCost=150; CapitalCost=120; KnowledgeCost=250;}
+Effect {Target = Ally(1); Action = Heal(6500); FaithCost=800; MilitaryCost=350; CapitalCost=320; KnowledgeCost=450;}
