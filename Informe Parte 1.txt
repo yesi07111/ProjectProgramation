@@ -1,0 +1,204 @@
+Yesenia Valdés Rodríguez C111
+
+Informe de mi parte del proyecto: Estructura lógica, estructura de clases y representación visual
+
+Idea General: 
+Juego de consola de cartas de combate. 
+
+Estructura base: 
+ACard (una carta). Clase de cartas. Para crearla se necesita disponer de tres clases de instancia más:
+(1)Attribute: Contiene los atributos de la carta tales como ATK, DEF y VIT. Y los elementos de la carta que es una clase de instancia:
+    (1.1)Elements: Contiene los posibles 4 elementos de la carta.
+(2)Effects: Contiene los 4 posibles efectos de una carta. Cada efecto es de una clase de efectos hijos de Effects:
+	(2.1)SingleEffect: Efecto de un solo objetivo, aplicable a cartas de tipo mágica y natural.
+	(2.2)AreaEffect: Efecto de varios objetivos, aplicanle a cartas naturales.
+	(2.3)ElementalDamage: Efecto ya sea sencillo o de varios objetivos que provoca daño elemental y tiene posibilidad de infligir
+	un efecto de estado.
+(3)Description: Contiene todo lo que describe a la carta. Su nombre, su lore o historia, su tipo, su raza, y sus costos de uso. De ellos
+el tipo y la raza son clases de instancia.
+	(3.1)AType (tipo: natural o mágica)
+	(3.2)Race: raza de la carta. Cada raza tiene una lista de elementos que puede tener, y no siempre son todos.
+Estas tres clases se le pasan como parámetros del primer constructor.
+El segundo constructor es para cartas creadas mediante el lenguaje. Requieren estos 3 objetos y además un objeto de tipo ObjectEffect.
+Este funciona tal que crea una acción (método), su nombre y descripción a partir del código escrito en una txt desde fuera y traducido
+con un parser.
+
+Conceptos del juego: 
+
+-Combate 1vs1 entre un jugador (Player) y una inteligencia artificial (IA). 
+-Cada jugador tiene un reino (Kingdoms) que gobierna, cartas en la mano (CardsInHand), un deck (DeckOfCards), un cementerio (Cementery), 
+las reglas del juego (Rules), el campo de juego (AField) y la vida (double).
+-Gana el que lleve la vida del oponente a 0.
+-La vida solo se daña como resultado de destruir una carta en el campo enemigo dejando un margen de ataque, o sea que el ATK sea mayor
+que la DEF y VIT de la carta objetivo.
+-Las cartas tiene propiedades como el nivel de evolución 1, 2, 3 para cartas naturales y 0 para mágicas.
+-Una carta en el campo evoluciona si invocas la misma carta en la misma posición. Al hacer esto se creo una copia de la carta evolucionada
+una vez y se lleva al deck, para si la obtienes poder hacer la tercera evolución.
+-Los elementos tienen determinados elementos con los que son fuertes, resistentes y puede que inmunes, lo que afecta el daño base de la
+carta (ATK) al atacar normalmente.
+-Por turno cada carta solo puede atacar o usar un efecto una vez.
+-Los efectos y las invocaciones vienen con costos de puntos de juego.
+-Los puntos de juego se recuperan en una cantidad determinada cada turno.
+-Las cartas creadas tienen un SpecialEffect diferente al objeto Effect original.
+
+Estructura de clases de juego:
+
+Player es la clase del jugador, sobre el que se realizan los efectos y acciones por turno. Este se crea con los objetos de instancia:
+	(1)Kingdoms: Reino del jugador. Tiene puntos iniciales denominados Faith, Militarism, Knowledge y Capital y una recuperación 
+	por turno determinada y una disposición (inclinación, favoritismo) por un tipo de puntuación. Las cartas tienen en contra parte
+	la propiedad afiliación que da un # del 1 al 100 de inclinación por cada puntuación y al ser invocadas a más inclinación por la
+	disposición del reino más aumenta su ATK, DEF y VIT.
+	(2)CardsInHand: Cartas en la mano. Recibe un array de cartas que guarda en la propiedad Hand (mano). Tiene varios métodos útiles
+	para trabajar con las cartas en la mano como Add, RemoveFromHand y DrawingCards (añadir, eliminar y robar cartas).
+	(3)AField: Campo de juego. Es un array de ACard[,] de 2 filas y 5 columnas ACard[2, 5] tal que sus posiciones si no hay carta
+	invocada es null. La fila 1 es para cartas naturales y la fila 2 para cartas mágicas. Tiene métodos útiles para el trabajo con
+	cartas en el campo como Invocation y Evolution (invocación y evolución). 
+	(4)DeckOfCards: Contiene las cartas del deck. Contiene métodos útiles como Shuffle, Add y Remove (barajear, añadir y remover).
+	(5)Cementery: Contiene la cartas cuya DEF y VIT llegaron a 0 en el campo. Tiene métodos útiles como ToCementery, RemoveFromGraveyard
+	y IsInCementery (enviar al cementerio, remover del cementerio y comprobar si está en el cementerio).
+	(6)Rules: Contiene las reglas como máxima cantidad de cartas en el deck (puede variar de 15 a 40), máximo número de cartas en mano
+	al inicio del juego (de 1 a 6) y cantidad de cartas a robar por turno.
+
+IA: Hija de Player. Tiene los mismos componentes más tres métodos con las acciones a llevar a cabo por turno: 
+	(1)MainPhase1 inicio de turno para robar cartas, invocar y/o usar cartas mágicas.
+	(2)BattlePhase para atacar y usar efectos
+	(3)MainPhase2 para invocar y/o usar efectos de cartas mágicas.
+
+Hay 2 tipos de IA que se pueden crear: 
+(1)Random Inteligente, pues aunque escoge sus objetivos y la cantidad random, lo hace de la mejor forma
+posible. 
+(2)Berserker Atacante, juega para ganar, priorizando atacar y destruir a los enemigos.
+
+Para que el juego funcione es necesario tener muchos de los objetos por defecto. Para jugar se necesitan cartas, para las cartas cada
+uno de sus clases de objeto. De ahí que clases como Elements y Effects y sus hijos sean más extensas, ya que crean 
+sus elementos/efectospor defecto y otras propiedades de utilidad para poder jugar. 
+
+Estructura más explícita: 
+ACard. Tiene muchas propiedades para facilitar el juego, desde el punto de vista del que programa claro está. Desde la carta se puede
+acceder a cualquier tipo que la conforme (como los que se le pasan de parámetros e incluso los tipos dentro de estos.) Si fuera un 
+árbol, ACard sería la raíz.
+Propiedades fundamentales: Nombre, lore (descripción, pasado, historia, trasfondo), su tipo (carta mágica o carta natural) en string y en 
+int. Costos de Faith, Militarism, Knowledge y Capital, se refiere a los costos para invocar la carta al campo. También viene una lista de
+costos en orden FKCM o sea una lista con esos 4 costos en ese orden (Faith, Knwoledge, Capital, Militarism). 
+La gran mayoría restante son propiedades que derivan de los tipos que la conforman, como por ejemplo el ATK, DEF, VIT y el propio tipo 
+Element existen como propiedades accesibles y modificables desde carta, todo en aras de mayor facilidad de acceso.
+Viene con algunos métodos extremadamente sencillos, como son restaurar sus stats originales, sus stats originales en el campo, resetear,
+clonar. Todos son bastante triviales.
+
+Description. AUnque contiene dos tipos más que se le pasan como parámetros (AType y Race), son relativamente sencillos. Sus principales
+usos es para dar una representación de una carta real de juegos de combate. En general, son formas de identificar una carta, ya que algunos
+como el nombre y el lore no cambian. Ahora sobre sus clases internas:
+
+AType. No se volvió Enum en lugar de clase por hacerlo extensible. De forma que alguien pueda venir e implementar un nuevo 
+tipo. Contiene el nombre en string del tipo y su número. Una clase bastante sencilla.
+
+Race. En la raza se pasa la afiliación y además se obtienen los nombres de las cartas al evolucionar. Todo fue a propósito guardado en un
+determinado orden de forma que el constructor solo necesite de un número para crear una raza. Lo mismo pasa con los elementos y los efectos.-
+
+Atributos. Los numéricos son básicos y bastante claros. Quedaría el Elements que es un tipo. 
+
+Elements: Este tiene una buena cantidad de constructores.
+Esto se debe en primer lugar a la comodidad y en segundo a la extensibilidad. Comodidad porque una carta puede tener 4 elementos, aunque 
+inicialmente solo dos (al menos las cartas creadas por defecto) y al evolucionar ganan uno random en cada evolución. Es conveniente entonces
+tener un constructor por cada cantidad de elementos a introducirle. Y extensible porque siempre se pueden añadir nuevos efectos vía código.
+Este tiene un método con varias sobrecargas llamado CheckandOrg que viene de chequear y organizar, para que los efectos no se creen con 
+elementos repetidos o con un elemento intermedio no válido. (Ejemplo: Elemento 1 Fire, Elemento 2 None, Elemento 3 Tierra, Elemento 4 Fire.
+Con estos métodos se corrige y devuelve el apropiado: Elemento 1 Fire Elemento 2 Tierra Elemento 3 None, Elemento 4 None). También viene con su 
+creador de elementos por defecto y para obtener las relaciones (ser fuerte, ser débil, ser inmune) entre ellos.
+
+Effects: Este es el más denso. Digamos que los efectos se dividen en varios tipos. Lo básico sería un ataque normal, ataque directo, restar el ATK a la
+DEF y si se hace 0 a la VIT. Para ello hay un método llamado DamageDealer, quien es usado además por otros efectos que requieran hacer daño. Por esa razón
+sus objetivos es un array, ya que pueden ser varios. Ahora los tipos más específicos que vienen con su propia clase que heredan de Effect:
+
+SingleEffect. Efectos sencillos. Tiene dos constructores. Para instanciarlo vacío o escogiendo un efecto sencillo de los que crea por defecto. Este efecto se
+le hace referencia mediante un delegado Func. Se pueden observar muchas propiedades que llevan delegados, algunas son usadas por la IA, otras por las mismas cartas
+para por ejemplo invocar un efecto y en general para mantener un orden, aunque parezca caótico realmente. Demasiadas propiedades en específico en Effects.cs.
+
+AreaEffect. Efectos de área. Igual dos constructores, sus efectos por defecto y sus propiedades. La diferencia con el de arriba es que puede aplicar efectos a más
+de un objetivo. Es todo. La diferenciación fue importante ya que las cartas empiezan más "débiles" con un efecto sencillo y otro elemental sencillo y en la primera
+evolución obtienen de forma random o un efecto de área o uno elemental de área. Así como las razas tienen elementos que pueden tener o no, en dependencia del elemento
+se encuentra el tipo de efecto de daño elemental que puede aprender.
+
+ElementalDamage. Otra característica además de la ya mencionada es que cada ataque viene con una probabilidad de provocar efectos de estado, al punto de que por cada 
+elemento por defecto hay un efecto de estado y su acción correspondiente. Para ello fue necesaria la clase StatusEffect, crear los estados por defecto y algunos diccionarios
+que relacionen estado y acción (descripción).
+
+IA. Las dos IAs implementan una buena cantidad de métodos. Pero se pueden resumir en tres acciones:
+MP1 (Main Phase 1, Fase Principal 1) Robar cartas e invocar monstruos. EL random
+escoge una cantidad random y de los disponibles trata de escoger al menos la que puede evolucionar. EL atacante tiene diferentes prioridades según el estado del campo, si existen cartas
+invocada o no, si puede evolucionar. Y trata siempre de invocar en orden de los primeros más fuertes en mano, también prioriza efectos de ataque únicamente, salvo de cartas mágicas.
+Todo se basa en una cantidad no escasa de if, for, y más if.
+
+BP (Battle Phase, Fase de batalla) Atacar y activar efectos. El random escoge de forma random la cantidad de cartas a usar entre las que puede y de ellas las va escogiendo random, pero
+una vez la tiene toma una decisión apropiada. Los efecto de ambos tipos de carta los diferencia entre positivos para sus aliados y negativos para enemigos. Y naturalmente solo daña a sus
+enemigos. Lo random es la cantidad de efectos. Si no todas las cartas usan efectos debido a esto, el resto ataca normal. El atacante prioriza el enemigo más debil, menos VIT y DEF para 
+destruirlo, ya que el daño directo a la vida solo es posible mediante el resto del ataque tras acabar con una carta. También diferencia efectos, y solo usa el más poderoso que tenga.
+
+MP2 (Main phase 2, Fase Principal 2) Es para volver a invocar o activar efectos de cartas mágicas (como la mayoría de las cartas mágicas son de un solo uso, invocarlas es equivalente a 
+usar su efecto). Sin embargo hay cuatro cartas especiales con Tower (Torre) en el nombre que se quedan en el campo y mejoran la recuperación de puntos.
+
+Player también presenta muchos métodos de uso de la IA, quien hereda de este. Se destacan los que buscan la máxima cantidad de cartas random que podría invocar según su costo del
+random (HowManyRandomCanPay) la idea es si fuera a tomar una x cantidad de cartas de forma aleatoria cual sería el máximo de cartas que podría pagar sin importar cuales sean. También 
+la decisión de a quien aumentarle las estadísticas del atacante al tener una carta mágica de ese tipo, que se toma sobre la carta más balanceada y el balance se define como el mayor 
+valor de ATK/(DEF + VIT). Después de todo es mejor tener una carta fuerte pero con buena vitalidad, pues si la matan rápido no hay punto. Estos métodos y otros varios vienen explicados 
+a detalle en el propio código.
+
+Cualquier otra duda, sin duda las líneas, comentadas una a una, la pueden responder.
+
+Algunos ejemplos de instancias:
+
+Ejemplos de creación de una carta:
+
+//Esta carta no funciona para jugar pues no tiene efecto alguno. 
+ACard card1 = new( new ProjectClasses.Attribute(1000, 1000, 1000, new Element()), 
+                               new Effects(), 
+                               new Description("Card1", "Testing card.", new AType(1), new Race(1), 100, 100, 100, 100));
+        };
+
+
+//esta tiene 4 efectos, uno sencillo, uno elemental sencillo, uno de área media y otro de área total
+ACard card2 = new( new ProjectClasses.Attribute(1500, 2000, 1000, new Element(5)), 
+                               new Effects(new SingleEffect(5, 1), new ElementalDamage(3, 1), new AreaEffect(3, 1), new AreaEffect(4)), 
+                               new Description("Card2", "Testing card.", new AType(1), new Race(1), 100, 100, 100, 100));
+        };
+
+Las cartas por defecto vienen con 2 efectos, sencillo y elemental. Igual con 1 o 2 elementos máximo.
+Al evolucionar obtienen un efecto extra que puede ser elemental de área o de área media. 
+Y en su última evolución obtienen el 4rto efecto de área total.
+Y en cada evolución ganan un elemento random, cambia el nombre de su raza y su nombre, aumentan sus Stats y gana una frase en el lore.
+
+Ejemplo de instanciar Player
+
+//player vacío de cartas
+Player player1 = new( new Kingdoms("Faith", 1000, 2000, 1000, 1000),
+                        new CardsInHand(new ACard[] {}),
+                        new DeckOfCards(new ACard[] {}),
+                        new Cementery(),
+                        new AField(),
+                        new Rules(),
+                        10000);
+
+Al intentar crear cualquier clase el constructor te ayuda explicando como obtener el resultado deseado.
+También toda la parte lógica del juego está comentada línea a línea, cualquier duda de el funcionamiento específico de un método o de las
+IA viene explicado cuidadosamente. 
+
+Finalmente la parte visual en general lo que hace es ilustrar el juego, donde se pone en práctica la estructura anteriormente mencionada,
+en una consola. El código es relativamente extenso, pero en general es ilustrar y expresar con caracteres las acciones llevadas a cabo. 
+Métodos para imprimir, switch que varían según la tecla que presiones y en general, imprimir el estado del juego a partir de que este se
+modifique internamente, de acuerdo a las acciones seleccionadas por el usuario traducidas a activación de métodos y por la IA que son código
+que actúa según el estado actual.
+También brinda opciones para el usuario, como cambiar los valores iniciales de puntos, vida, su nombre, la IA rival. Permite 
+además hacer modificaciones en las reglas. 
+Los deck se crean de forma aleatoria al inicio del juego, a partir de una base de datos de 120 cartas guardadas en la carpeta DataBase 
+en forma de .txt. En la clase CardLoader se lee, interpreta y lleva al código el .txt para obtener las cartas. En CardDataBase se pueden 
+crear otras bases de dato de forma aleatoria.
+
+Una opción visual es ver un ejemplo de deck random y ver las cartas creadas por el usuario que son traducidas por el código de mi compañero.
+
+Y eso sería a grandes rasgos el la estructura lógica y representación visual del proyecto. Reitero que todo detalle se encuentra comentado,
+con excepción de la parte de la consola.
+
+Gracias por leer.
+
+
+
